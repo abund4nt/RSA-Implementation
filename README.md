@@ -64,20 +64,59 @@ Enter the private key that will encrypt the message (base64): LS0tLS1CRUdJTiBSU0
 
 Decrypted message: b'Mi password is securepassword123'
 ```
-## Breve explicacion de RSA.
+## Brief explanation of RSA.
 
-**Generacion de claves.**
+**Key generation.**
 
-Para generar las claves en RSA se eligen dos numeros primos distintos $p$ y $q$, estos numeros son aleatorios y deben tener una longitud de bits parecida. Con ambos numeros se calcula $n = pq$. N es el modulo para las clave publica y privada.
+To generate the keys in RSA, two different prime numbers $p$ and $q$ are chosen, these numbers are random and must have a similar bit length. With both numbers $n = pq$ is calculated. N is the modulus for the public and private keys.
 
-Utilizando la funcion de euler se calcula $\phi = (p - 1)(q - 1)$. Luego se busca un enetero positivo $e$ que sea menor que $\phi$ para utilizarlo como exponente publico.
+Using euler's function we calculate $\phi = (p - 1)(q - 1)$. Then find a positive integer $e$ that is less than $\phi$ to use as a public exponent.
 
-Con estos valores se determina d que es igual a $e \cdot d \equiv 1 \pmod{\phi} $.
+With these values, d is determined to be equal to $e d 1.
 
-La clave publica es $n$ y $e$ y la clave privada es $n$ y $d$.
+The public key is $n$ and $e$ and the private key is $n$ and $d$.
 
-**Cifrado**
+**Encryption**
 
-Siendo $M$ el mensaje en texto plano y $C$ el mensaje encriptado, Alicia manda su clave publica a Bob por un canal inseguro manteniendo su clave privada en secreto. Bob utiliza la siguiente formula para cifrar el mensaje.
+With $M$ being the plaintext message and $C$ being the encrypted message, Alice sends her public key to Bob over an insecure channel while keeping her private key secret. Bob uses the following formula to encrypt the message.
 
 $c \equiv M^{e} \pmod n$
+
+Basic example in Python.
+
+``` python
+from Crypto.Util.number import *
+
+e = 0x10001
+
+p, q = getPrime(1024), getPrime(1024)
+n = p * 
+message = bytes_to_long(input('Enter your message: ').encode())
+enc_message = pow(message, e, n)
+```
+
+**Deciphered**.
+
+Alice can recover $M$ from $C$ using $d$.
+
+$m \equiv c^{d} \pmod n$.
+
+Basic Python example:
+
+``` python
+from Crypto.Util.number import *
+
+p, q = getPrime(1024), getPrime(1024)
+n = p * q
+phi = (p - 1) * (q - 1)
+e = 0x10001
+d = inverse(e, phi)  # Calcular la clave privada d
+
+enc_message = int(input('Enter the encrypted message: '))
+dec_message = pow(enc_message, d, n)
+
+original_message = long_to_bytes(dec_message)
+
+print(original_message)
+```
+
