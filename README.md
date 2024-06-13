@@ -68,6 +68,6 @@ Decrypted message: b'Mi password is securepassword123'
 
 **Generacion de claves.**
 
-Para generar las claves en RSA se eligen dos numeros primos distintos $\p$ y $\q$, estos numeros son aleatorios y deben tener una longitud de bits parecida. Con ambos numeros se calcula $\n = pq$. N es el modulo para las clave publica y privada.
+Para generar las claves en RSA se eligen dos numeros primos distintos $p$ y $q$, estos numeros son aleatorios y deben tener una longitud de bits parecida. Con ambos numeros se calcula $\n = pq$. N es el modulo para las clave publica y privada.
 
 Utilizando la funcion de euler se calcula $\phi = (p - 1)(q - 1).$
