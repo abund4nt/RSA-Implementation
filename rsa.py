@@ -35,17 +35,17 @@ while True:
         pubkey_message = base64.b64decode(pubkey_message)
         pubkey_message = RSA.import_key(pubkey_message)
         
-        encrypted_message_one = pow(plain_message, pubkey_message.e, pubkey_message.n)
-        print(f"\nYour encrypted message is: {encrypted_message_one}\n")
+        encrypted_message = pow(plain_message, pubkey_message.e, pubkey_message.n)
+        print(f"\nYour encrypted message is: {encrypted_message}\n")
     
     elif option_user == 3:
-        encrypted_message_two = input('Enter the encrypted message: ')
+        encrypted_message = input('Enter the encrypted message: ')
         privkey_message = input('\nEnter the private key that will encrypt the message (base64): ')
         privkey_message = base64.b64decode(privkey_message)
         privkey_message = RSA.import_key(privkey_message)
 
-        m = pow(int(encrypted_message_two), privkey_message.d, privkey_message.n)
-        print(f"\nDecrypted message: {long_to_bytes(m)}\n")
+        decrypted_message = pow(int(encrypted_message), privkey_message.d, privkey_message.n)
+        print(f"\nDecrypted message: {long_to_bytes(decrypted_message)}\n")
 
     elif option_user == 4:
         print('Goodbye! thank you for using the tool')
