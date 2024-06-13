@@ -1,5 +1,8 @@
 # RSA cryptosystem implementation in Python
 
+> [!WARNING]
+> This RSA implementation could be insecure, the repository is created for the purpose of learning about asymmetric cryptography, do not use this tool for sensitive things.
+
 Simple script written in Python that implements the RSA cryptosystem. This tool allows us to encrypt/decrypt messages securely using RSA.
 
 ## Functionalities of the tool
