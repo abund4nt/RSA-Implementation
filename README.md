@@ -74,3 +74,10 @@ Utilizando la funcion de euler se calcula $\phi = (p - 1)(q - 1)$. Luego se busc
 
 Con estos valores se determina d que es igual a $e \cdot d \equiv 1 \pmod{\phi} $.
 
+La clave publica es $n$ y $e$ y la clave privada es $n$ y $d$.
+
+**Cifrado**
+
+Siendo $M$ el mensaje en texto plano y $C$ el mensaje encriptado, Alicia manda su clave publica a Bob por un canal inseguro manteniendo su clave privada en secreto. Bob utiliza la siguiente formula para cifrar el mensaje.
+
+$c \equiv M^{e} \pmod n$
