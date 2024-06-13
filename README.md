@@ -72,4 +72,4 @@ Para generar las claves en RSA se eligen dos numeros primos distintos $p$ y $q$,
 
 Utilizando la funcion de euler se calcula $\phi = (p - 1)(q - 1).$. Luego se busca un enetero positivo $e$ que sea menor que $\phi$ para utilizarlo como exponente publico.
 
-Con estos valores se determina d, esta debe satisacer la congruencia $e \dot d \equal 1 mod \phi$
+Con estos valores se determina d, esta debe satisacer la congruencia $\begin{equation*}e \dot d = 1 \text{ (mod } \phi \text{)}\end{equation*}$
