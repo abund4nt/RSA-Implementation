@@ -66,7 +66,7 @@ Decrypted message: b'Mi password is securepassword123'
 ```
 ## Brief explanation of RSA.
 
-**Key generation.**
+### Key generation.
 
 To generate the keys in RSA, two different prime numbers $p$ and $q$ are chosen, these numbers are random and must have a similar bit length. With both numbers $n = pq$ is calculated. N is the modulus for the public and private keys.
 
@@ -76,7 +76,7 @@ With these values, d is determined to be equal to $e d 1.
 
 The public key is $n$ and $e$ and the private key is $n$ and $d$.
 
-**Encryption**
+### Encryption
 
 With $M$ being the plaintext message and $C$ being the encrypted message, Alice sends her public key to Bob over an insecure channel while keeping her private key secret. Bob uses the following formula to encrypt the message.
 
@@ -95,7 +95,7 @@ message = bytes_to_long(input('Enter your message: ').encode())
 enc_message = pow(message, e, n)
 ```
 
-**Deciphered**.
+### Deciphered.
 
 Alice can recover $M$ from $C$ using $d$.
 
