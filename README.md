@@ -1,17 +1,41 @@
-# RSA cryptosystem implementation in Python
+# Enhanced RSA Cryptosystem Implementation in Python
+
+## Overview
+
+This repository contains a Python implementation of the RSA (Rivest-Shamir-Adleman) asymmetric cryptosystem. RSA is one of the first public-key cryptosystems and is widely used for secure data transmission. This implementation serves as an educational tool to understand the fundamentals of asymmetric cryptography.
 
 > [!WARNING]
-> This RSA implementation could be insecure, the repository is created for the purpose of learning about asymmetric cryptography, do not use this tool for sensitive things.
+> **Security Notice**: This implementation is for educational purposes only. It may contain vulnerabilities and should not be used for sensitive data in production environments. Always use well-vetted cryptographic libraries for real-world applications.
 
-Simple script written in Python that implements the RSA cryptosystem. This tool allows us to encrypt/decrypt messages securely using RSA.
+## Features
 
-## Functionalities of the tool
+- Key pair generation (2048-bit RSA keys)
+- Message encryption using public keys
+- Message decryption using private keys
+- Base64 encoding/decoding for key exchange
+- Interactive command-line interface
 
-When connecting to the server or using the tool locally, you will encounter the following interface
+## Getting Started
 
-``` shell
+### Prerequisites
+
+- Python 3.x
+- PyCryptodome library (`pip install pycryptodome`)
+
+### Installation
+
+```bash
+git clone https://github.com/your-repo/rsa-implementation.git
+cd rsa-implementation
+pip install -r requirements.txt
+```
+
+## Usage Guide
+
+When you run the script, you'll be presented with an interactive menu:
+
+```shell
 Welcome to RSA Server
-
 
 Select Option:
 (1) Generate keys (private and public)
@@ -20,15 +44,15 @@ Select Option:
 (4) Exit
 ```
 
-This tool has 4 options, the first one allows us to generate a public and private key to encrypt/decrypt messages. Our public key can be disclosed through an insecure channel for a third party to encrypt data with it. Our private key should not be given to a third party for any reason, as it will be used to decrypt our messages. (For more information read the following [article](https://es.wikipedia.org/wiki/Criptograf%C3%ADa_asim%C3%A9trica)). The second one allows us to encrypt a message using a public key (send it in base64). The third one allows us to decrypt a message using a private key and in the fourth option we exit the tool.
+### 1. Key Generation
 
-![](https://i.imgur.com/bh740T4.png)
+Generating a key pair is the first step in using RSA cryptography:
 
-## Example of encrypting and decrypting a message
+```shell
+Select Option: 1
 
-First of all we select option 1 and generate a public and private key, then we store both keys securely.
+[!] WARNING: The keys are being generated... keep them well stored.
 
-``` shell
 Your private key:
 -----BEGIN RSA PRIVATE KEY-----
 MIIEogIBAAKCAQEAu7L5kbU4NC+7RqQiVgMBfOx/w4cuniNLAsrZ9HPAACvHszSh
@@ -47,79 +71,181 @@ f.....
 In base64: LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3M...
 ```
 
-With both values saved, we can give our public key to a sender to encrypt a message with it. For this we select option 2.
+**Important Security Notes:**
+- The private key must be kept secret at all times
+- The public key can be freely distributed
+- Store keys securely (consider password protection for the private key)
+- 2048-bit keys provide good security, but consider 3072 or 4096 bits for long-term security
 
-``` shell
-Enter the message to encrypt: Mi password is securepassword123
+### 2. Message Encryption
+
+To encrypt a message using a recipient's public key:
+
+```shell
+Select Option: 2
+
+Enter the message to encrypt: This is a secret message
 
 Enter the public key that will encrypt the message (base64): LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0F....
 
 Your encrypted message is: 14746634659051772345090619160847739346107822025878135056179431840383544183296437967909270354886735311180345743247212097706211101979451086028894835680585248834437560595077643176436038963195768876269911488174549424136154017029571441970067895516962286416050993934884906175304494142739460796136689018735564315035027718985716888453925282184178223539865834082853819602735459279117003460750949613734854620605171680712533091450949344077259036144276006252259608802572121747059525003621833160828635385601464134106144846772874481867511654254510137807977887643414711944912069376356633491565114517263965263150144656557937396321386
 ```
 
-We can see that it delivers the message encrypted correctly, in this step the sender delivers the encrypted message through an insecure channel, and we can decrypt it using our public key.
+**Technical Details:**
+- Messages are converted to numerical representation before encryption
+- The public key's exponent (e) and modulus (n) are used for encryption
+- The encryption formula: c ≡ mᵉ mod n
 
-``` shell
+### 3. Message Decryption
+
+To decrypt a message using your private key:
+
+```shell
 Select Option: 3
+
 Enter the encrypted message: 14746634659051772345090619160847739346107822025878135056179431840383544183296437967909270354886735311180345743247212097706211101979451086028894835680585248834437560595077643176436038963195768876269911488174549424136154017029571441970067895516962286416050993934884906175304494142739460796136689018735564315035027718985716888453925282184178223539865834082853819602735459279117003460750949613734854620605171680712533091450949344077259036144276006252259608802572121747059525003621833160828635385601464134106144846772874481867511654254510137807977887643414711944912069376356633491565114517263965263150144656557937396321386
 
-Enter the private key that will encrypt the message (base64): LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb2dJQkFBS0NBUUVBdTdMNWtiVTROQys3UnFRaVZnTUJmT3gvdzRjdW5pT......
+Enter the private key that will decrypt the message (base64): LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb2dJQkFBS0NBUUVBdTdMNWtiVTROQys3UnFRaVZnTUJmT3gvdzRjdW5pT......
 
-Decrypted message: b'Mi password is securepassword123'
-```
-## Brief explanation of RSA.
-
-### Key generation.
-
-To generate the keys in RSA, two different prime numbers $p$ and $q$ are chosen, these numbers are random and must have a similar bit length. With both numbers $n = pq$ is calculated. N is the modulus for the public and private keys.
-
-Using euler's function we calculate $\phi = (p - 1)(q - 1)$. Then find a positive integer $e$ that is less than $\phi$ to use as a public exponent.
-
-With these values, d is determined to be equal to $e d 1.
-
-The public key is $n$ and $e$ and the private key is $n$ and $d$.
-
-### Encryption
-
-With $M$ being the plaintext message and $C$ being the encrypted message, Alice sends her public key to Bob over an insecure channel while keeping her private key secret. Bob uses the following formula to encrypt the message.
-
-$c \equiv M^{e} \pmod n$
-
-Basic example in Python.
-
-``` python
-from Crypto.Util.number import *
-
-e = 0x10001
-
-p, q = getPrime(1024), getPrime(1024)
-n = p * 
-message = bytes_to_long(input('Enter your message: ').encode())
-enc_message = pow(message, e, n)
+Decrypted message: b'This is a secret message'
 ```
 
-### Deciphered.
+**Technical Details:**
+- The private key's exponent (d) and modulus (n) are used for decryption
+- The decryption formula: m ≡ cᵈ mod n
+- The result is converted back from numerical representation to bytes
 
-Alice can recover $M$ from $C$ using $d$.
+## RSA Cryptography Explained
 
-$m \equiv c^{d} \pmod n$.
+### Mathematical Foundations
 
-Basic Python example:
+RSA is based on the practical difficulty of factoring the product of two large prime numbers (the factoring problem). The security of RSA relies on:
 
-``` python
-from Crypto.Util.number import *
+1. **Prime Factorization**: Difficulty in factoring large numbers
+2. **Modular Arithmetic**: Properties of exponents in modular arithmetic
+3. **Euler's Theorem**: Relationship between exponents and modulus
 
-p, q = getPrime(1024), getPrime(1024)
-n = p * q
-phi = (p - 1) * (q - 1)
-e = 0x10001
-d = inverse(e, phi)  # Calcular la clave privada d
+### Key Generation Process
 
-enc_message = int(input('Enter the encrypted message: '))
-dec_message = pow(enc_message, d, n)
+1. **Select two distinct prime numbers** (p and q)
+   - These should be large, random primes of similar length
+   - In this implementation, we use 1024-bit primes (2048-bit modulus)
 
-original_message = long_to_bytes(dec_message)
+2. **Compute modulus (n)**
+   - n = p × q
+   - This will be part of both public and private keys
 
-print(original_message)
-```
+3. **Compute Carmichael's totient function (λ(n))**
+   - λ(n) = lcm(p-1, q-1)
+   - Where lcm is the least common multiple
 
+4. **Choose public exponent (e)**
+   - Typically 65537 (0x10001)
+   - Must satisfy 1 < e < λ(n) and gcd(e, λ(n)) = 1
+
+5. **Determine private exponent (d)**
+   - d ≡ e⁻¹ mod λ(n)
+   - This is the modular multiplicative inverse of e modulo λ(n)
+
+### Encryption Process
+
+Given a public key (n, e) and plaintext message M:
+
+1. Convert M to an integer m (padding may be applied)
+2. Compute ciphertext: c ≡ mᵉ mod n
+3. The ciphertext c is sent to the recipient
+
+### Decryption Process
+
+Given a private key (n, d) and ciphertext c:
+
+1. Compute plaintext integer: m ≡ cᵈ mod n
+2. Convert m back to the original message M
+
+### Security Considerations
+
+1. **Key Size**: This implementation uses 2048-bit keys, which is considered secure until 2030
+2. **Padding**: Proper padding (like OAEP) should be used in production
+3. **Side-channel Attacks**: This implementation doesn't protect against timing attacks
+4. **Random Number Generation**: The quality of random numbers affects security
+
+## Implementation Details
+
+### Key Components
+
+1. **Key Generation**:
+   - Uses `Crypto.PublicKey.RSA.generate()`
+   - Default key size is 2048 bits
+   - Public exponent is fixed at 65537 (common secure value)
+
+2. **Message Conversion**:
+   - Uses `Crypto.Util.number.bytes_to_long()` and `long_to_bytes()`
+   - Handles conversion between bytes and large integers
+
+3. **Base64 Encoding**:
+   - Used for key exchange representation
+   - Makes keys easier to copy and transmit
+
+### Limitations
+
+1. **Message Size**: RSA can only encrypt messages smaller than the modulus
+2. **Performance**: RSA is slower than symmetric encryption
+3. **Padding**: No padding scheme is implemented (vulnerable to certain attacks)
+4. **Error Handling**: Minimal error handling for simplicity
+
+## Advanced Topics
+
+### Optimizations in Real Implementations
+
+1. **Chinese Remainder Theorem (CRT)**: Speeds up decryption
+2. **Window Exponentiation**: More efficient modular exponentiation
+3. **Montgomery Reduction**: Faster modular arithmetic
+
+### Common Vulnerabilities
+
+1. **Small Exponent Attack**: When e is too small
+2. **Common Modulus Attack**: Reusing modulus with different exponents
+3. **Timing Attacks**: Leaking information through timing differences
+4. **Padding Oracle Attacks**: Exploiting padding verification
+
+## Example Use Cases
+
+1. **Secure Message Exchange**:
+   - Alice generates key pair, shares public key with Bob
+   - Bob encrypts message with Alice's public key
+   - Alice decrypts with her private key
+
+2. **Digital Signatures** (not implemented here):
+   - Sign by encrypting with private key
+   - Verify by decrypting with public key
+
+3. **Hybrid Cryptosystems**:
+   - Use RSA to exchange symmetric keys
+   - Use symmetric encryption for bulk data
+
+## Extending the Implementation
+
+To make this more production-ready, consider adding:
+
+1. **Proper Padding Schemes** (OAEP or PKCS#1 v1.5)
+2. **Key Serialization with Passwords**
+3. **File Encryption/Decryption**
+4. **Network Communication Support**
+5. **Digital Signature Functionality**
+
+## References
+
+1. [Original RSA Paper](https://people.csail.mit.edu/rivest/Rsapaper.pdf)
+2. [PKCS #1 Standard](https://tools.ietf.org/html/rfc8017)
+3. [NIST Recommendations](https://csrc.nist.gov/publications/detail/sp/800-56b/rev-2/final)
+4. [Applied Cryptography by Bruce Schneier](https://www.schneier.com/books/applied_cryptography/)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Rivest, Shamir, and Adleman for the RSA algorithm
+- The PyCryptodome developers for their excellent library
+- All cryptographers who have contributed to making RSA secure
